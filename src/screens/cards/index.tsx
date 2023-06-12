@@ -1,0 +1,1 @@
+//tela que mostra todos os cards de uma aba
