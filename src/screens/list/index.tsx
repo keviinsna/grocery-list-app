@@ -1,1 +1,0 @@
-//tela que mostra os items da lista de um card selecionado
