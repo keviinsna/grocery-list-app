@@ -66,5 +66,8 @@ web-build/
 # Husky
 .husky/
 
+# env
+.env*
+
 # Prettier
 .prettierignore
