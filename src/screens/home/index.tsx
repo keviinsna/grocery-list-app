@@ -1,9 +1,9 @@
 import AuthService from '../../services/auth';
 import { Button, Text, View } from 'react-native';
-export default function FoodTab() {
+export default function Home() {
 	return (
 		<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-			<Text>Food Tab</Text>
+			<Text>Home</Text>
 			<Button title="Sign Out" onPress={AuthService.signOut} />
 		</View>
 	);
