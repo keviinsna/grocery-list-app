@@ -14,11 +14,7 @@ import AuthStack from './src/navigation/auth_stack';
 
 export default function App() {
 	const [session, setSession] = useState<Session | null>(null);
-	const theme = extendTheme({
-		config: {
-			initialColorMode: 'dark',
-		},
-	});
+	const theme = extendTheme({});
 	useEffect(() => {
 		supabase.auth.getSession().then(({ data: { session } }) => {
 			setSession(session);

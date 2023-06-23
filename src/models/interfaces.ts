@@ -5,8 +5,13 @@ export interface User {
 	password: string;
 }
 
-export const emptyUser: User = {
+export interface RegisterUser extends User {
+	confirm_password: string;
+}
+
+export const emptyUser: RegisterUser = {
 	name: '',
 	email: '',
 	password: '',
+	confirm_password: '',
 };
