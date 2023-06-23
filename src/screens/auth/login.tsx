@@ -1,6 +1,5 @@
 // React & React-Native
 import React, { useState } from 'react';
-import { Alert } from 'react-native';
 // Services
 import AuthService from '../../services/auth';
 // Interfaces
@@ -15,17 +14,22 @@ import {
 	Button,
 	VStack,
 	Heading,
+	useToast,
 	FormControl,
 } from 'native-base';
+// Utils
+import C from '../../utils/constants';
+import { showMessage } from '../../utils/utils';
 
 export default function Login({ navigation }: any) {
+	const toast = useToast();
 	const [user, setUser] = useState<User>(emptyUser);
 	const [loading, setLoading] = useState(false);
 
 	const signIn = async () => {
 		setLoading(true);
 		const { error } = await AuthService.signIn(user.email, user.password);
-		if (error) Alert.alert(error.message);
+		if (error) showMessage(toast, C.AUTH_ERROR, C.STATUS.error, error.message);
 		setLoading(false);
 	};
 

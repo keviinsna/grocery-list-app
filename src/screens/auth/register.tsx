@@ -13,79 +13,108 @@ import {
 	Button,
 	Heading,
 	FormControl,
+	useToast,
+	ScrollView,
 } from 'native-base';
-import { Alert } from 'react-native';
+// Utils
+import C from '../../utils/constants';
+import { showMessage } from '../../utils/utils';
 
 export default function Register({ navigation }: any) {
+	const toast = useToast();
 	const [loading, setLoading] = useState(false);
 	const [user, setUser] = useState<RegisterUser>(emptyUser);
 
+	const isFormValid = (): boolean => {
+		const check =
+			user.password == '' ||
+			user.confirm_password == '' ||
+			user.email == '' ||
+			user.name == '' ||
+			user.confirm_password != user.password;
+		return check;
+	};
+
 	const signUp = async () => {
 		setLoading(true);
+
 		const { error } = await AuthService.signUp(
 			user.name,
 			user.email,
 			user.password,
 		);
-		if (error) Alert.alert(error.message);
+		if (error) {
+			showMessage(toast, C.AUTH_ERROR, C.STATUS.error, error.message);
+		} else {
+			showMessage(toast, C.SUCCESS, C.STATUS.success, 'Wellcome to the app');
+			navigation.navigate('Login');
+		}
+
 		setLoading(false);
 	};
 
 	return (
-		<Center w="100%" style={{ flex: 1 }}>
-			<Box safeArea py="10" w="85%">
+		<>
+			<Box safeArea px="7" py="6" w="85%">
 				<Heading size="lg" fontWeight="600" color="coolGray.800">
 					Welcome
 				</Heading>
 				<Heading mt="1" color="coolGray.600" fontWeight="medium" size="xs">
 					Sign up to continue!
 				</Heading>
-				<VStack space={3} mt="5">
-					<FormControl>
-						<FormControl.Label>Name</FormControl.Label>
-						<Input
-							onChangeText={(name: string) => setUser({ ...user, name: name })}
-						/>
-					</FormControl>
-					<FormControl>
-						<FormControl.Label>Email ID</FormControl.Label>
-						<Input
-							autoCapitalize="none"
-							onChangeText={(email: string) =>
-								setUser({ ...user, email: email })
-							}
-						/>
-					</FormControl>
-					<FormControl>
-						<FormControl.Label>Password</FormControl.Label>
-						<Input
-							type="password"
-							onChangeText={(password: string) =>
-								setUser({ ...user, password: password })
-							}
-						/>
-					</FormControl>
-					<FormControl>
-						<FormControl.Label>Confirm Password</FormControl.Label>
-						<Input
-							type="password"
-							onChangeText={(password: string) =>
-								setUser({ ...user, password: password })
-							}
-						/>
-					</FormControl>
-					<Button
-						mt="2"
-						colorScheme="indigo"
-						onPress={signUp}
-						isLoading={loading}
-						spinnerPlacement="end"
-						isLoadingText="Submitting"
-					>
-						Sign Up
-					</Button>
-				</VStack>
 			</Box>
-		</Center>
+			<ScrollView>
+				<Center>
+					<VStack space={3} mt="5" w="85%" mb="5">
+						<FormControl>
+							<FormControl.Label>Name</FormControl.Label>
+							<Input
+								onChangeText={(name: string) =>
+									setUser({ ...user, name: name })
+								}
+							/>
+						</FormControl>
+						<FormControl>
+							<FormControl.Label>Email ID</FormControl.Label>
+							<Input
+								autoCapitalize="none"
+								onChangeText={(email: string) =>
+									setUser({ ...user, email: email })
+								}
+							/>
+						</FormControl>
+						<FormControl>
+							<FormControl.Label>Password</FormControl.Label>
+							<Input
+								type="password"
+								onChangeText={(password: string) =>
+									setUser({ ...user, password: password })
+								}
+							/>
+						</FormControl>
+						<FormControl>
+							<FormControl.Label>Confirm Password</FormControl.Label>
+							<Input
+								type="password"
+								onChangeText={(confirm_password: string) =>
+									setUser({ ...user, confirm_password: confirm_password })
+								}
+							/>
+						</FormControl>
+						<Button
+							mt="2"
+							colorScheme="indigo"
+							onPress={signUp}
+							isDisabled={isFormValid()}
+							isLoading={loading}
+							spinnerPlacement="end"
+							isLoadingText="Submitting"
+						>
+							Sign Up
+						</Button>
+					</VStack>
+				</Center>
+			</ScrollView>
+		</>
 	);
 }

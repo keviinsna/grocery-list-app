@@ -1,3 +1,5 @@
+import { IToastProps } from 'native-base';
+
 // User
 export interface User {
 	name: string;
@@ -15,3 +17,12 @@ export const emptyUser: RegisterUser = {
 	password: '',
 	confirm_password: '',
 };
+
+export interface toastProps {
+	show: (props: IToastProps) => any;
+	close: (id: any) => void;
+	closeAll: () => void;
+	isActive: (id: any) => boolean;
+}
+
+export type toastStatus = 'info' | 'warning' | 'success' | 'error';
