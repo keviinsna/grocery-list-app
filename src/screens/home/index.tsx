@@ -7,6 +7,7 @@ import {
 	Divider,
 	HStack,
 	Heading,
+	Pressable,
 	Stack,
 	Text,
 	VStack,
@@ -50,9 +51,20 @@ export default function Home({ navigation }: any) {
 							{groups.map(
 								(comp, index) =>
 									index % 2 == 0 && (
-										<Box key={index}>
-											<Group comp={comp} />
-										</Box>
+										<Pressable
+											key={index}
+											onPress={() =>
+												navigation.navigate('List', {
+													card_id: comp.id,
+													card_name: comp.group,
+													user_id: user?.id,
+												})
+											}
+										>
+											<Box>
+												<Group comp={comp} />
+											</Box>
+										</Pressable>
 									),
 							)}
 						</VStack>
@@ -60,9 +72,20 @@ export default function Home({ navigation }: any) {
 							{groups.map(
 								(comp, index) =>
 									index % 2 != 0 && (
-										<Box key={index}>
-											<Group comp={comp} />
-										</Box>
+										<Pressable
+											key={index}
+											onPress={() =>
+												navigation.navigate('List', {
+													card_id: comp.id,
+													card_name: comp.group,
+													user_id: user?.id,
+												})
+											}
+										>
+											<Box>
+												<Group comp={comp} />
+											</Box>
+										</Pressable>
 									),
 							)}
 						</VStack>
