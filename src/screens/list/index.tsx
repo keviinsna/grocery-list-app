@@ -29,6 +29,10 @@ export default function List({ navigation, route }: Props) {
 	useEffect(() => {
 		navigation.addListener('focus', () => {
 			getListByGroup();
+			navigation.setOptions({
+				title: route.params.card_name,
+				headerTitleAlign: 'center',
+			});
 		});
 
 		return () => {
@@ -108,9 +112,6 @@ export default function List({ navigation, route }: Props) {
 	return (
 		<Center w="100%" mt={10}>
 			<Box px={5} w="100%">
-				<Heading mb="2" size="md">
-					{params.card_name}
-				</Heading>
 				<VStack space={4}>
 					<HStack space={2}>
 						<Input
