@@ -130,7 +130,7 @@ export default function List({ navigation, route }: Props) {
 								<IconButton
 									borderRadius="sm"
 									variant="solid"
-									bgColor="indigo.400"
+									bgColor="indigo.600"
 									icon={
 										<Icon
 											as={Feather}
