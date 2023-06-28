@@ -129,12 +129,29 @@ export default function Home({ navigation }: Props) {
 }
 
 function Group({ comp }: any) {
+	const colors = {
+		azul: 'primary.200',
+		vermelho: 'red.200',
+		rosa: 'secondary.200',
+		verde: 'tertiary.200',
+		laranja: 'warming.200',
+		roxo: 'purple.200',
+		amarelo: 'amber.200',
+		azulClaro: 'indigo.200',
+	};
+	const getColor = () => {
+		const colorArray = Object.keys(colors);
+		const aleatoryColor =
+			colorArray[Math.floor(Math.random() * colorArray.length)];
+		// @ts-ignore
+		return colors[aleatoryColor];
+	};
 	return (
 		<Box
 			rounded="lg"
 			borderColor="coolGray.200"
 			borderWidth="1"
-			_light={{ backgroundColor: 'gray.50' }}
+			_light={{ backgroundColor: getColor() }}
 		>
 			<Stack p="4" space={3} w="100%" px={3} minW="150">
 				<Stack space={2} alignItems="center">
