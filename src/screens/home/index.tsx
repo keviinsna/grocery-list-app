@@ -48,10 +48,10 @@ export default function Home({ navigation }: Props) {
 			) : (
 				<Box bg="white" alignItems="center">
 					<Heading p={3} mx={2}>
-						Olá, {user?.email}
+						Olá, {user?.user_metadata["first_name"]}
 					</Heading>
 					<HStack space={3} px={2} justifyContent="center" w="50%">
-						<VStack space={4} alignItems="center">
+						<VStack space={4} alignItems="center" w="100%">
 							{groups.map(
 								(comp, index) =>
 									index % 2 == 0 && (
@@ -107,16 +107,19 @@ function Group({ comp }: any) {
 			borderColor="coolGray.200"
 			borderWidth="1"
 			_light={{ backgroundColor: 'gray.50' }}
+			w="100%"
+			py={8}
+			px={4}
 		>
 			<Stack p="4" space={3}>
 				<Stack space={2} alignItems="center">
 					<Heading size="lg">{comp.group}</Heading>
 				</Stack>
-				<Divider />
+				{/* <Divider />
 				<Text fontWeight="400">
 					Bengaluru (also called Bangalore) is the center of India's high-tech
 					industry. The city is also known for its parks and nightlife.
-				</Text>
+				</Text> */}
 			</Stack>
 		</Box>
 	);
