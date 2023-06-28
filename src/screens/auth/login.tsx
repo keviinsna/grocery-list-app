@@ -1,64 +1,104 @@
 // React & React-Native
 import React, { useState } from 'react';
-import { Button, Input } from 'react-native-elements';
-import { Alert, StyleSheet, View } from 'react-native';
 // Services
 import AuthService from '../../services/auth';
 // Interfaces
 import { User, emptyUser } from '../../models/interfaces';
+import {
+	Box,
+	Link,
+	Text,
+	Input,
+	Center,
+	HStack,
+	Button,
+	VStack,
+	Heading,
+	useToast,
+	FormControl,
+} from 'native-base';
+// Utils
+import C from '../../utils/constants';
+import { showMessage } from '../../utils/utils';
 
-export default function Login() {
+export default function Login({ navigation }: any) {
+	const toast = useToast();
 	const [user, setUser] = useState<User>(emptyUser);
 	const [loading, setLoading] = useState(false);
 
 	const signIn = async () => {
 		setLoading(true);
 		const { error } = await AuthService.signIn(user.email, user.password);
-		if (error) Alert.alert(error.message);
+		if (error) showMessage(toast, C.AUTH_ERROR, C.STATUS.error, error.message);
 		setLoading(false);
 	};
 
 	return (
-		<View style={styles.container}>
-			<View style={[styles.verticallySpaced, styles.mt20]}>
-				<Input
-					label="Email"
-					leftIcon={{ type: 'font-awesome', name: 'envelope' }}
-					onChangeText={(email) => setUser({ ...user, email: email })}
-					value={user.email}
-					placeholder="email@address.com"
-					autoCapitalize={'none'}
-				/>
-			</View>
-			<View style={styles.verticallySpaced}>
-				<Input
-					label="Password"
-					leftIcon={{ type: 'font-awesome', name: 'lock' }}
-					onChangeText={(password) => setUser({ ...user, password: password })}
-					value={user.password}
-					secureTextEntry={true}
-					placeholder="Password"
-					autoCapitalize={'none'}
-				/>
-			</View>
-			<View style={[styles.verticallySpaced, styles.mt20]}>
-				<Button title="Sign in" disabled={loading} onPress={signIn} />
-			</View>
-		</View>
+		<Center w="100%" style={{ flex: 1 }}>
+			<Box safeArea py="10" w="85%">
+				<Heading size="lg" fontWeight="600" color="coolGray.800">
+					Welcome
+				</Heading>
+				<Heading mt="1" color="coolGray.600" fontWeight="medium" size="xs">
+					Sign in to continue!
+				</Heading>
+				<VStack space={3} mt="5">
+					<FormControl>
+						<FormControl.Label>Email ID</FormControl.Label>
+						<Input
+							autoCapitalize="none"
+							onChangeText={(email: string) =>
+								setUser({ ...user, email: email })
+							}
+						/>
+					</FormControl>
+					<FormControl>
+						<FormControl.Label>Password</FormControl.Label>
+						<Input
+							type="password"
+							onChangeText={(password: string) =>
+								setUser({ ...user, password: password })
+							}
+						/>
+						{/* <Link
+							_text={{
+								fontSize: 'xs',
+								fontWeight: '500',
+								color: 'indigo.500',
+							}}
+							alignSelf="flex-end"
+							mt="1"
+						>
+							Forget Password?
+						</Link> */}
+					</FormControl>
+					<Button
+						mt="2"
+						colorScheme="indigo"
+						onPress={signIn}
+						isLoading={loading}
+						spinnerPlacement="end"
+						isLoadingText="Submitting"
+					>
+						Sign in
+					</Button>
+					<HStack mt="6" justifyContent="center">
+						<Text fontSize="sm" color="coolGray.600">
+							I'm a new user.{' '}
+						</Text>
+						<Link
+							_text={{
+								color: 'indigo.500',
+								fontWeight: 'medium',
+								fontSize: 'sm',
+							}}
+							onPress={() => navigation.navigate('Register')}
+						>
+							Sign Up
+						</Link>
+					</HStack>
+				</VStack>
+			</Box>
+		</Center>
 	);
 }
-
-const styles = StyleSheet.create({
-	container: {
-		marginTop: 40,
-		padding: 12,
-	},
-	verticallySpaced: {
-		paddingTop: 4,
-		paddingBottom: 4,
-		alignSelf: 'stretch',
-	},
-	mt20: {
-		marginTop: 20,
-	},
-});
