@@ -125,6 +125,7 @@ export default function List({ navigation, route }: Props) {
 									onChangeText={setItem}
 									value={item}
 									placeholder="Add Item"
+									onSubmitEditing={() => addItem(item)}
 								/>
 								<IconButton
 									borderRadius="sm"
