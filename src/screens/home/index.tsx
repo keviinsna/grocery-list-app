@@ -13,8 +13,12 @@ import {
 	VStack,
 } from 'native-base';
 import { CardSkeleton } from '../../components/CardSkeleton';
+import { HomeStackParams } from '../../navigation/home_stack';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-export default function Home({ navigation }: any) {
+type Props = NativeStackScreenProps<HomeStackParams, 'Home'>;
+
+export default function Home({ navigation }: Props) {
 	const [user, setUser] = useState<User>();
 	const [groups, setGroups] = useState<any[]>([]);
 	const [loading, setLoading] = useState<boolean>(false);
@@ -57,7 +61,7 @@ export default function Home({ navigation }: any) {
 												navigation.navigate('List', {
 													card_id: comp.id,
 													card_name: comp.group,
-													user_id: user?.id,
+													user_id: user?.id as string,
 												})
 											}
 										>
@@ -78,7 +82,7 @@ export default function Home({ navigation }: any) {
 												navigation.navigate('List', {
 													card_id: comp.id,
 													card_name: comp.group,
-													user_id: user?.id,
+													user_id: user?.id as string,
 												})
 											}
 										>
