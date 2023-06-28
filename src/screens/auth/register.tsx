@@ -46,7 +46,7 @@ export default function Register({ navigation }: any) {
 		if (error) {
 			showMessage(toast, C.AUTH_ERROR, C.STATUS.error, error.message);
 		} else {
-			showMessage(toast, C.SUCCESS, C.STATUS.success, 'Wellcome to the app');
+			showMessage(toast, C.SUCCESS, C.STATUS.success, 'Check your email');
 			navigation.navigate('Login');
 		}
 
