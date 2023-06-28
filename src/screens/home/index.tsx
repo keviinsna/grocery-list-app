@@ -10,14 +10,10 @@ import {
 	Pressable,
 	Stack,
 	VStack,
-	Text,
-	Checkbox,
-	Button,
 } from 'native-base';
 import { CardSkeleton } from '../../components/CardSkeleton';
 import { HomeStackParams } from '../../navigation/home_stack';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import AuthService from '../../services/auth';
 
 type Props = NativeStackScreenProps<HomeStackParams, 'Home'>;
 
