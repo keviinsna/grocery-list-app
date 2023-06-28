@@ -10,10 +10,10 @@ interface ListParams {
 	card_name: string;
 }
 
-export interface HomeStackParams {
+export type HomeStackParams = {
 	Home: undefined;
 	List: ListParams;
-}
+};
 
 export default function HomeStack() {
 	const Stack = createNativeStackNavigator<HomeStackParams>();
