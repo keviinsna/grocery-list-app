@@ -25,22 +25,21 @@ export default function List({ navigation, route }: Props) {
 	const copyList = useRef<any[]>([]);
 	const [list, setList] = useState<any[]>([]);
 	const [item, setItem] = useState<string>('');
-	// const copyList = list;
+
 	useEffect(() => {
 		navigation.addListener('focus', () => {
 			getListByGroup();
 		});
 
 		return () => {
-			// saveList(initList.current, copyList.current);
-			// console.log(copyList.current);
+			saveList(initList.current, copyList.current);
 		};
 	}, []);
 
 	const getListByGroup = async () => {
 		const response = await supabase
 			.from('list')
-			.select('*')
+			.select('item, user_id, group_id, is_completed')
 			.eq('user_id', route.params.user_id)
 			.eq('group_id', route.params.card_id);
 		if (response.data) {
@@ -54,22 +53,15 @@ export default function List({ navigation, route }: Props) {
 
 	const saveList = async (initList: any[], newList: any[]) => {
 		// Check changes
-		console.log('Init list', JSON.stringify(initList));
-		console.log('\nCopy list', JSON.stringify(newList));
 		if (JSON.stringify(initList) != JSON.stringify(newList)) {
 			// Delete items
-			console.log('Deleting...');
 			const responseDelete = await supabase
 				.from('list')
 				.delete()
 				.eq('user_id', route.params.user_id)
 				.eq('group_id', route.params.card_id);
-			console.log(responseDelete);
 			if (!responseDelete.error) {
-				console.log('\nInserting...');
-				// Create items
-				const responseInsert = await supabase.from('list').insert(newList);
-				console.log(responseInsert);
+				await supabase.from('list').insert(newList);
 			}
 		}
 	};
@@ -90,10 +82,6 @@ export default function List({ navigation, route }: Props) {
 			];
 
 			copyList.current = [...newList];
-
-			// console.log(
-			// 	JSON.stringify(initList.current) != JSON.stringify(copyList.current),
-			// );
 			return newList;
 		});
 	};
@@ -108,19 +96,18 @@ export default function List({ navigation, route }: Props) {
 
 	const handleStatusChange = (index: number) => {
 		setList((prevList) => {
-			// console.log(prevList);
-
-			const newList = [...prevList];
-			newList[index].is_completed = !newList[index].is_completed;
-
-			// copyList.current = [...newList];
+			const newList = prevList.map((item, idx) => {
+				if (index == idx) return { ...item, is_completed: !item.is_completed };
+				return item;
+			});
+			copyList.current = [...newList];
 			return newList;
 		});
 	};
 
 	return (
 		<Center w="100%" mt={10}>
-			<Box maxW="300" w="100%">
+			<Box px={5} w="100%">
 				<Heading mb="2" size="md">
 					{params.card_name}
 				</Heading>
@@ -172,12 +159,7 @@ export default function List({ navigation, route }: Props) {
 									size="sm"
 									colorScheme="trueGray"
 									icon={
-										<Icon
-											as={Entypo}
-											name="minus"
-											size="xs"
-											color="trueGray.400"
-										/>
+										<Icon as={Entypo} name="trash" size="sm" color="red.400" />
 									}
 									onPress={() => handleDelete(index)}
 								/>
