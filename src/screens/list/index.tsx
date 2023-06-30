@@ -37,6 +37,7 @@ export default function ListScreen({ navigation, route }: Props) {
 
 		return () => {
 			saveList(initList.current, copyList.current);
+			navigation.navigate('Home', { list: copyList.current });
 		};
 	}, []);
 
