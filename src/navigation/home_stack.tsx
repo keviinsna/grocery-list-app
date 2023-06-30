@@ -39,7 +39,6 @@ export default function HomeStack() {
 					headerTitleAlign: 'center',
 					headerRight: () => HomeHeader,
 				}}
-				// options={{ header: () => HomeHeader }}
 			/>
 			<Stack.Screen name="List" component={List} />
 		</Stack.Navigator>

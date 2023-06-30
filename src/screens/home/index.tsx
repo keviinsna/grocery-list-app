@@ -14,12 +14,17 @@ import {
 import { CardSkeleton } from '../../components/CardSkeleton';
 import { HomeStackParams } from '../../navigation/home_stack';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { Group, List } from '../../models/supabase_models';
 
 type Props = NativeStackScreenProps<HomeStackParams, 'Home'>;
-
-export default function Home({ navigation }: Props) {
+interface ListGroup {
+	group: string;
+	group_id: number;
+	list: List[];
+}
+export default function HomeScreen({ navigation }: Props) {
 	const [user, setUser] = useState<User>();
-	const [groups, setGroups] = useState<any[]>([]);
+	const [groups, setGroups] = useState<ListGroup[]>([]);
 	const [loading, setLoading] = useState<boolean>(false);
 
 	useEffect(() => {
@@ -39,28 +44,30 @@ export default function Home({ navigation }: Props) {
 		setLoading(false);
 	};
 
-	const getUser = async () => {
+	const getUser = async (): Promise<User | undefined> => {
 		const session = await supabase.auth.getSession();
 		if (session.data.session?.user) {
 			setUser(session.data.session?.user);
 			return session.data.session?.user;
 		}
 	};
-	const getList = async (user: User) => {
+	const getList = async (user: User): Promise<List[]> => {
 		const response = await supabase
 			.from('list')
 			.select('*')
 			.eq('user_id', user.id);
-		return response.data;
+		const list: List[] = response.data ?? [];
+		return list;
 	};
 
-	const getGroups = async () => {
+	const getGroups = async (): Promise<Group[]> => {
 		const response = await supabase.from('groups').select('*');
-		return response.data;
+		const groups: Group[] = response.data ?? [];
+		return groups;
 	};
 
-	const groupByCategories = (list: any[], groups: any[]) => {
-		const grouped = groups.map((g) => {
+	const groupByCategories = (list: List[], groups: Group[]) => {
+		const grouped: ListGroup[] = groups.map((g) => {
 			const listByCategory = list
 				.filter((item) => item.group_id == g.id)
 				.slice(0, 5);
@@ -68,7 +75,7 @@ export default function Home({ navigation }: Props) {
 				group_id: g.id,
 				group: g.group,
 				list: listByCategory,
-			};
+			} as ListGroup;
 		});
 		return grouped;
 	};
@@ -97,7 +104,7 @@ export default function Home({ navigation }: Props) {
 												})
 											}
 										>
-											<Group comp={comp} />
+											<GroupCard comp={comp} />
 										</Pressable>
 									),
 							)}
@@ -111,12 +118,12 @@ export default function Home({ navigation }: Props) {
 											onPress={() =>
 												navigation.navigate('List', {
 													card_id: comp.group_id,
-													card_name: comp.name,
+													card_name: comp.group,
 													user_id: user?.id as string,
 												})
 											}
 										>
-											<Group comp={comp} />
+											<GroupCard comp={comp} />
 										</Pressable>
 									),
 							)}
@@ -128,7 +135,7 @@ export default function Home({ navigation }: Props) {
 	);
 }
 
-function Group({ comp }: any) {
+function GroupCard({ comp }: { comp: ListGroup }) {
 	const colors = {
 		azul: 'primary.200',
 		vermelho: 'red.200',
@@ -158,7 +165,7 @@ function Group({ comp }: any) {
 					<Heading size="lg">{comp.group}</Heading>
 				</Stack>
 				<Divider />
-				{/* {comp.list.map((c: any, index: number) => {
+				{/* {comp.list.map((c: List, index: number) => {
 					return (
 						<VStack key={index} w="100%" px={2}>
 							<HStack>

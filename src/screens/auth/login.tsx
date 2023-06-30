@@ -20,8 +20,12 @@ import {
 // Utils
 import C from '../../utils/constants';
 import { showMessage } from '../../utils/utils';
+import { AuthStackParams } from '../../navigation/auth_stack';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-export default function Login({ navigation }: any) {
+type Props = NativeStackScreenProps<AuthStackParams, 'Login'>;
+
+export default function Login({ navigation }: Props) {
 	const toast = useToast();
 	const [user, setUser] = useState<User>(emptyUser);
 	const [loading, setLoading] = useState(false);

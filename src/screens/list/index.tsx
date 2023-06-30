@@ -15,14 +15,14 @@ import { useEffect, useRef, useState } from 'react';
 import { HomeStackParams } from '../../navigation/home_stack';
 import { ListSkeleton } from '../../components/ListSkeleton';
 import { supabase } from '../../services/supabase';
+import { List } from '../../models/supabase_models';
 
 type Props = NativeStackScreenProps<HomeStackParams, 'List'>;
 
-export default function List({ navigation, route }: Props) {
-	// TODO: Add type supabase
-	const initList = useRef<any[]>([]);
-	const copyList = useRef<any[]>([]);
-	const [list, setList] = useState<any[]>([]);
+export default function ListScreen({ navigation, route }: Props) {
+	const initList = useRef<List[]>([]);
+	const copyList = useRef<List[]>([]);
+	const [list, setList] = useState<List[]>([]);
 	const [item, setItem] = useState<string>('');
 	const [loading, setLoading] = useState<boolean>(false);
 
@@ -40,24 +40,26 @@ export default function List({ navigation, route }: Props) {
 		};
 	}, []);
 
-	const getListByGroup = async () => {
+	const getListByGroup = async (): Promise<List[]> => {
 		setLoading(true);
 		const response = await supabase
 			.from('list')
 			.select('item, user_id, group_id, is_completed')
 			.eq('user_id', route.params.user_id)
 			.eq('group_id', route.params.card_id);
-		if (response.data) {
-			initList.current = [...response.data];
-			copyList.current = [...response.data];
-			setList(response.data);
+
+		const list: List[] = response.data ?? [];
+		if (list) {
+			initList.current = [...list];
+			copyList.current = [...list];
+			setList(list);
 		}
 
 		setLoading(false);
-		return response.data;
+		return list;
 	};
 
-	const saveList = async (initList: any[], newList: any[]) => {
+	const saveList = async (initList: List[], newList: List[]) => {
 		// Check changes
 		if (JSON.stringify(initList) != JSON.stringify(newList)) {
 			// Delete items
@@ -72,12 +74,12 @@ export default function List({ navigation, route }: Props) {
 		}
 	};
 
-	const addItem = (item: any) => {
+	const addItem = (item: string) => {
 		if (item === '') return;
 
 		setItem('');
 		setList((prevList) => {
-			const newList = [
+			const newList: List[] = [
 				...prevList,
 				{
 					user_id: route.params.user_id,
@@ -154,7 +156,7 @@ export default function List({ navigation, route }: Props) {
 											isChecked={item.is_completed}
 											aria-label="checkbox"
 											onChange={() => handleStatusChange(index)}
-											value={item.is_completed}
+											value={`${item.is_completed}`}
 										/>
 										<Text
 											width="100%"
