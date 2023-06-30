@@ -19,8 +19,12 @@ import {
 // Utils
 import C from '../../utils/constants';
 import { showMessage } from '../../utils/utils';
+import { AuthStackParams } from '../../navigation/auth_stack';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-export default function Register({ navigation }: any) {
+type Props = NativeStackScreenProps<AuthStackParams, 'Register'>;
+
+export default function Register({ navigation }: Props) {
 	const toast = useToast();
 	const [loading, setLoading] = useState(false);
 	const [user, setUser] = useState<RegisterUser>(emptyUser);
