@@ -36,7 +36,7 @@ export default function HomeScreen({ navigation, route }: Props) {
 	useEffect(() => {
 		const list = route.params?.list;
 		if (list) {
-			const groupId = list[0].group_id;
+			const groupId = route.params?.group_id;
 			setGroups((prev) => {
 				const groupName = prev.find((g) => g.group_id == groupId)?.group;
 				const newList = prev.filter((g) => g.group_id != groupId);
