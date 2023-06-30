@@ -16,6 +16,7 @@ interface ListParams {
 
 interface HomeParams {
 	list?: List[];
+	group_id: number;
 }
 
 export type HomeStackParams = {
