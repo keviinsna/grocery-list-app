@@ -110,7 +110,14 @@ export default function HomeScreen({ navigation, route }: Props) {
 					<Heading p={3} mx={2}>
 						Olá, {user?.user_metadata['first_name']}
 					</Heading>
-					<HStack space={4} px={2} justifyContent="center" w="50%">
+					<HStack
+						space={4}
+						px={2}
+						justifyContent="center"
+						w="50%"
+						mt={2}
+						mb={4}
+					>
 						<VStack space={4} alignItems="center" w="100%">
 							{groups.map(
 								(comp, index) =>
@@ -125,7 +132,31 @@ export default function HomeScreen({ navigation, route }: Props) {
 												})
 											}
 										>
-											<GroupCard comp={comp} />
+											{({ isHovered, isPressed }) => {
+												return (
+													<Box
+														rounded="lg"
+														borderColor="coolGray.200"
+														borderWidth="1"
+														bg={
+															isPressed
+																? 'coolGray.100'
+																: isHovered
+																? 'coolGray.200'
+																: 'white'
+														}
+														style={{
+															transform: [
+																{
+																	scale: isPressed ? 0.96 : 1,
+																},
+															],
+														}}
+													>
+														<GroupCard comp={comp} />
+													</Box>
+												);
+											}}
 										</Pressable>
 									),
 							)}
@@ -144,7 +175,31 @@ export default function HomeScreen({ navigation, route }: Props) {
 												})
 											}
 										>
-											<GroupCard comp={comp} />
+											{({ isHovered, isPressed }) => {
+												return (
+													<Box
+														rounded="lg"
+														borderColor="coolGray.200"
+														borderWidth="1"
+														bg={
+															isPressed
+																? 'coolGray.100'
+																: isHovered
+																? 'coolGray.200'
+																: 'white'
+														}
+														style={{
+															transform: [
+																{
+																	scale: isPressed ? 0.96 : 1,
+																},
+															],
+														}}
+													>
+														<GroupCard comp={comp} />
+													</Box>
+												);
+											}}
 										</Pressable>
 									),
 							)}
@@ -175,42 +230,35 @@ function GroupCard({ comp }: { comp: ListGroup }) {
 		return colors[aleatoryColor];
 	};
 	return (
-		<Box
-			rounded="lg"
-			borderColor="coolGray.200"
-			borderWidth="1"
-			// _light={{ backgroundColor: getColor() }}
-		>
-			<Stack p="4" space={3} w="100%" px={3} minW="150">
-				<Stack space={2} alignItems="center">
-					<Heading size="lg">{comp.group}</Heading>
-				</Stack>
-				<Divider />
-				{comp.list.map((c: List, index: number) => {
-					return (
-						<VStack key={index} w="100%" px={2}>
-							<HStack>
-								<Checkbox
-									isChecked={c.is_completed}
-									aria-label="checkbox"
-									value={`${c.is_completed}`}
-								/>
-								<Text
-									flexShrink={1}
-									textAlign="left"
-									mx="2"
-									strikeThrough={c.is_completed}
-									_light={{
-										color: c.is_completed ? 'gray.400' : 'coolGray.800',
-									}}
-								>
-									{c.item}
-								</Text>
-							</HStack>
-						</VStack>
-					);
-				})}
+		<Stack p="4" space={3} w="100%" px={3} minW="150">
+			<Stack space={2} alignItems="center">
+				<Heading size="lg">{comp.group}</Heading>
 			</Stack>
-		</Box>
+			<Divider />
+			{comp.list.map((c: List, index: number) => {
+				return (
+					<VStack key={index} w="100%" px={2}>
+						<HStack>
+							<Checkbox
+								isChecked={c.is_completed}
+								aria-label="checkbox"
+								value={`${c.is_completed}`}
+							/>
+							<Text
+								flexShrink={1}
+								textAlign="left"
+								mx="2"
+								strikeThrough={c.is_completed}
+								_light={{
+									color: c.is_completed ? 'gray.400' : 'coolGray.800',
+								}}
+							>
+								{c.item}
+							</Text>
+						</HStack>
+					</VStack>
+				);
+			})}
+		</Stack>
 	);
 }
