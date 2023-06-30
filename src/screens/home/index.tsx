@@ -4,11 +4,13 @@ import { supabase } from '../../services/supabase';
 import { User } from '@supabase/supabase-js';
 import {
 	Box,
+	Checkbox,
 	Divider,
 	HStack,
 	Heading,
-	Pressable,
 	Stack,
+	Pressable,
+	Text,
 	VStack,
 } from 'native-base';
 import { CardSkeleton } from '../../components/CardSkeleton';
@@ -22,7 +24,7 @@ interface ListGroup {
 	group_id: number;
 	list: List[];
 }
-export default function HomeScreen({ navigation }: Props) {
+export default function HomeScreen({ navigation, route }: Props) {
 	const [user, setUser] = useState<User>();
 	const [groups, setGroups] = useState<ListGroup[]>([]);
 	const [loading, setLoading] = useState<boolean>(false);
@@ -30,6 +32,25 @@ export default function HomeScreen({ navigation }: Props) {
 	useEffect(() => {
 		init();
 	}, []);
+
+	useEffect(() => {
+		const list = route.params?.list;
+		if (list) {
+			const groupId = list[0].group_id;
+			setGroups((prev) => {
+				const groupName = prev.find((g) => g.group_id == groupId)?.group;
+				const newList = prev.filter((g) => g.group_id != groupId);
+				const _listGroup: ListGroup = {
+					group_id: groupId,
+					group: groupName as string,
+					list: list.slice(0, 5),
+				};
+
+				newList.push(_listGroup);
+				return newList.sort((g1, g2) => g1.group_id - g2.group_id);
+			});
+		}
+	}, [route.params?.list]);
 
 	const init = async () => {
 		setLoading(true);
@@ -158,21 +179,21 @@ function GroupCard({ comp }: { comp: ListGroup }) {
 			rounded="lg"
 			borderColor="coolGray.200"
 			borderWidth="1"
-			_light={{ backgroundColor: getColor() }}
+			// _light={{ backgroundColor: getColor() }}
 		>
 			<Stack p="4" space={3} w="100%" px={3} minW="150">
 				<Stack space={2} alignItems="center">
 					<Heading size="lg">{comp.group}</Heading>
 				</Stack>
 				<Divider />
-				{/* {comp.list.map((c: List, index: number) => {
+				{comp.list.map((c: List, index: number) => {
 					return (
 						<VStack key={index} w="100%" px={2}>
 							<HStack>
 								<Checkbox
 									isChecked={c.is_completed}
 									aria-label="checkbox"
-									value={c.is_completed}
+									value={`${c.is_completed}`}
 								/>
 								<Text
 									flexShrink={1}
@@ -188,7 +209,7 @@ function GroupCard({ comp }: { comp: ListGroup }) {
 							</HStack>
 						</VStack>
 					);
-				})} */}
+				})}
 			</Stack>
 		</Box>
 	);
