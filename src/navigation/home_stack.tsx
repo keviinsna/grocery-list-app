@@ -7,6 +7,7 @@ import { Icon, IconButton } from 'native-base';
 import AuthService from '../services/auth';
 import { Entypo } from '@expo/vector-icons';
 import { List } from '../models/supabase_models';
+import { Image } from 'react-native';
 
 interface ListParams {
 	user_id: string;
@@ -26,15 +27,16 @@ export type HomeStackParams = {
 
 export default function HomeStack() {
 	const Stack = createNativeStackNavigator<HomeStackParams>();
-	const HomeHeader = (
+	const LogOutButton = (
 		<IconButton
 			size="md"
 			variant="ghost"
-			colorScheme="indigo"
+			colorScheme="purple"
 			onPress={AuthService.signOut}
 			icon={<Icon as={Entypo} name="log-out" />}
 		/>
 	);
+	const Logo = <Image source={require('../assets/icons/logo-48.png')} />;
 	return (
 		<Stack.Navigator screenOptions={{ title: '' }}>
 			<Stack.Screen
@@ -43,7 +45,8 @@ export default function HomeStack() {
 				options={{
 					title: 'Grocery List App',
 					headerTitleAlign: 'center',
-					headerRight: () => HomeHeader,
+					headerLeft: () => Logo,
+					headerRight: () => LogOutButton,
 				}}
 			/>
 			<Stack.Screen name="List" component={ListScreen} />
