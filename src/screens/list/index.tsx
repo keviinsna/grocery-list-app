@@ -88,7 +88,7 @@ export default function ListScreen({ navigation, route }: Props) {
 				{
 					user_id: route.params.user_id,
 					group_id: route.params.card_id,
-					item: item,
+					item: item.trim(),
 					is_completed: false,
 				},
 			];

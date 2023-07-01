@@ -102,11 +102,11 @@ export default function HomeScreen({ navigation, route }: Props) {
 	};
 
 	return (
-		<ScrollView>
+		<ScrollView style={{ backgroundColor: 'white' }}>
 			{loading ? (
 				<CardSkeleton />
 			) : (
-				<Box bg="white" alignItems="center">
+				<Box bg="white" w="100%" alignItems="center">
 					<Heading p={3} mx={2}>
 						Olá, {user?.user_metadata['first_name']}
 					</Heading>

@@ -43,8 +43,8 @@ export default function Register({ navigation }: Props) {
 		setLoading(true);
 
 		const { error } = await AuthService.signUp(
-			user.name,
-			user.email,
+			user.name.trim(),
+			user.email.trim(),
 			user.password,
 		);
 		if (error) {

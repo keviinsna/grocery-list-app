@@ -1,6 +1,6 @@
 // React & React-Native
 import React, { useState } from 'react';
-import { Image, KeyboardAvoidingView } from 'react-native';
+import { Image } from 'react-native';
 // Services
 import AuthService from '../../services/auth';
 // Interfaces
@@ -17,7 +17,6 @@ import {
 	Heading,
 	useToast,
 	FormControl,
-	ScrollView,
 } from 'native-base';
 // Utils
 import C from '../../utils/constants';
@@ -45,8 +44,6 @@ export default function Login({ navigation }: Props) {
 				style={{
 					width: '70%',
 					height: '30%',
-					// borderColor: 'red',
-					// borderWidth: 1,
 				}}
 				source={require('../../assets/icons/logo-500.png')}
 			/>
@@ -63,7 +60,7 @@ export default function Login({ navigation }: Props) {
 						<Input
 							autoCapitalize="none"
 							onChangeText={(email: string) =>
-								setUser({ ...user, email: email })
+								setUser({ ...user, email: email.trim() })
 							}
 						/>
 					</FormControl>
