@@ -242,6 +242,7 @@ function GroupCard({ comp }: { comp: ListGroup }) {
 							<Checkbox
 								isChecked={c.is_completed}
 								aria-label="checkbox"
+								colorScheme="purple"
 								value={`${c.is_completed}`}
 							/>
 							<Text

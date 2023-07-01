@@ -79,7 +79,7 @@ export default function Register({ navigation }: Props) {
 							/>
 						</FormControl>
 						<FormControl>
-							<FormControl.Label>Email ID</FormControl.Label>
+							<FormControl.Label>Email</FormControl.Label>
 							<Input
 								autoCapitalize="none"
 								onChangeText={(email: string) =>
@@ -107,7 +107,7 @@ export default function Register({ navigation }: Props) {
 						</FormControl>
 						<Button
 							mt="2"
-							colorScheme="indigo"
+							colorScheme="purple"
 							onPress={signUp}
 							isDisabled={isFormValid()}
 							isLoading={loading}

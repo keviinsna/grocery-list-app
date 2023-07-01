@@ -6,7 +6,7 @@ export function ListSkeleton() {
 			<VStack w="100%" px={5} mt={10} space={5} rounded="md">
 				<HStack space={2}>
 					<Skeleton flex="9" rounded="sm" />
-					<Skeleton flex="1" rounded="sm" startColor="indigo.400" />
+					<Skeleton flex="1" rounded="sm" startColor="purple.400" />
 				</HStack>
 				<HStack space="2" alignItems="center">
 					<Skeleton size="5" rounded="full" />

@@ -136,7 +136,7 @@ export default function ListScreen({ navigation, route }: Props) {
 								<IconButton
 									borderRadius="sm"
 									variant="solid"
-									bgColor="indigo.600"
+									bgColor="purple.600"
 									icon={
 										<Icon
 											as={Feather}
@@ -159,6 +159,7 @@ export default function ListScreen({ navigation, route }: Props) {
 										<Checkbox
 											isChecked={item.is_completed}
 											aria-label="checkbox"
+											colorScheme="purple"
 											onChange={() => handleStatusChange(index)}
 											value={`${item.is_completed}`}
 										/>

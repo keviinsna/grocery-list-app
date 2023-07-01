@@ -1,5 +1,6 @@
 // React & React-Native
 import React, { useState } from 'react';
+import { Image, KeyboardAvoidingView } from 'react-native';
 // Services
 import AuthService from '../../services/auth';
 // Interfaces
@@ -16,6 +17,7 @@ import {
 	Heading,
 	useToast,
 	FormControl,
+	ScrollView,
 } from 'native-base';
 // Utils
 import C from '../../utils/constants';
@@ -39,7 +41,16 @@ export default function Login({ navigation }: Props) {
 
 	return (
 		<Center w="100%" style={{ flex: 1 }}>
-			<Box safeArea py="10" w="85%">
+			<Image
+				style={{
+					width: '70%',
+					height: '30%',
+					// borderColor: 'red',
+					// borderWidth: 1,
+				}}
+				source={require('../../assets/icons/logo-500.png')}
+			/>
+			<Box w="85%">
 				<Heading size="lg" fontWeight="600" color="coolGray.800">
 					Welcome
 				</Heading>
@@ -48,7 +59,7 @@ export default function Login({ navigation }: Props) {
 				</Heading>
 				<VStack space={3} mt="5">
 					<FormControl>
-						<FormControl.Label>Email ID</FormControl.Label>
+						<FormControl.Label>Email</FormControl.Label>
 						<Input
 							autoCapitalize="none"
 							onChangeText={(email: string) =>
@@ -72,13 +83,13 @@ export default function Login({ navigation }: Props) {
 							}}
 							alignSelf="flex-end"
 							mt="1"
-						>
+							>
 							Forget Password?
 						</Link> */}
 					</FormControl>
 					<Button
 						mt="2"
-						colorScheme="indigo"
+						colorScheme="purple"
 						onPress={signIn}
 						isLoading={loading}
 						spinnerPlacement="end"
@@ -92,7 +103,7 @@ export default function Login({ navigation }: Props) {
 						</Text>
 						<Link
 							_text={{
-								color: 'indigo.500',
+								color: 'purple.600',
 								fontWeight: 'medium',
 								fontSize: 'sm',
 							}}
