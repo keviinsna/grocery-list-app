@@ -21,6 +21,7 @@ import C from '../../utils/constants';
 import { showMessage } from '../../utils/utils';
 import { AuthStackParams } from '../../navigation/auth_stack';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { KeyboardAvoidingView, Image, Platform } from 'react-native';
 
 type Props = NativeStackScreenProps<AuthStackParams, 'Register'>;
 
@@ -58,16 +59,25 @@ export default function Register({ navigation }: Props) {
 	};
 
 	return (
-		<>
-			<Box safeArea px="7" py="6" w="85%">
-				<Heading size="lg" fontWeight="600" color="coolGray.800">
-					Welcome
-				</Heading>
-				<Heading mt="1" color="coolGray.600" fontWeight="medium" size="xs">
-					Sign up to continue!
-				</Heading>
-			</Box>
+		<KeyboardAvoidingView behavior="height">
 			<ScrollView>
+				<Center mt={10}>
+					<Image
+						style={{
+							width: 200,
+							height: 200,
+						}}
+						source={require('../../assets/icons/logo-500-2.png')}
+					/>
+				</Center>
+				<Box px="7">
+					<Heading size="lg" fontWeight="600" color="coolGray.800">
+						Welcome
+					</Heading>
+					<Heading mt="1" color="coolGray.600" fontWeight="medium" size="xs">
+						Sign up to continue!
+					</Heading>
+				</Box>
 				<Center>
 					<VStack space={3} mt="5" w="85%" mb="5">
 						<FormControl>
@@ -119,6 +129,6 @@ export default function Register({ navigation }: Props) {
 					</VStack>
 				</Center>
 			</ScrollView>
-		</>
+		</KeyboardAvoidingView>
 	);
 }
